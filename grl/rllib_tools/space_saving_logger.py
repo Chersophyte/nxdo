@@ -3,7 +3,6 @@ import tempfile
 
 import logging
 from typing import Dict, Callable
-import ray
 from ray.tune.result import NODE_IP
 from ray.tune.logger import UnifiedLogger
 
@@ -45,7 +44,6 @@ class SpaceSavingLogger(UnifiedLogger):
         self.print_log_dir = print_log_dir
         self.delete_hist_stats = delete_hist_stats
         self.should_log_result_fn = should_log_result_fn
-        # self._log_syncer = DefaultLogger(self.config, self.logdir)
 
     def on_result(self, result):
         if self.print_log_dir:

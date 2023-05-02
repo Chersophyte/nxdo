@@ -257,6 +257,7 @@ def train_off_policy_rl_nfsp(results_dir: str,
                             average_policy_id: policy_samples
                         }, env_steps=policy_samples.count))
                 if average_policy_id in samples.policy_batches:
+                    
                     if br_policy_id in samples.policy_batches:
                         all_policies_samples = samples.policy_batches[br_policy_id].concat(
                             other=samples.policy_batches[average_policy_id])
