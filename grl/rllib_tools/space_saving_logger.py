@@ -32,6 +32,7 @@ class SpaceSavingLogger(UnifiedLogger):
                  logdir,
                  trial=None,
                  loggers=None,
+                 sync_function=None,
                  should_log_result_fn: Callable[[Dict], bool] = None,
                  print_log_dir=True,
                  delete_hist_stats=True):
@@ -39,7 +40,8 @@ class SpaceSavingLogger(UnifiedLogger):
         super(SpaceSavingLogger, self).__init__(config=config,
                                                 logdir=logdir,
                                                 trial=trial,
-                                                loggers=loggers)
+                                                loggers=loggers,
+                                                sync_function=sync_function)
         self.print_log_dir = print_log_dir
         self.delete_hist_stats = delete_hist_stats
         self.should_log_result_fn = should_log_result_fn
@@ -65,9 +67,8 @@ class SpaceSavingLogger(UnifiedLogger):
         if should_log_result:
             for _logger in self._loggers:
                 _logger.on_result(result)
-            # self._log_syncer.set_worker_ip(result.get(NODE_IP))
-            # self._log_syncer.sync_down_if_needed()
-            # self._log_syncer.on_result(result)
+            self._log_syncer.set_worker_ip(result.get(NODE_IP))
+            self._log_syncer.sync_down_if_needed()
 
 
 def get_trainer_logger_creator(base_dir: str, scenario_name: str, should_log_result_fn: Callable[[dict], bool]):

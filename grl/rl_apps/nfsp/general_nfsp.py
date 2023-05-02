@@ -160,7 +160,6 @@ def train_off_policy_rl_nfsp(results_dir: str,
         "num_gpus_per_worker": 0.0,
         "num_workers": 0,
         "num_envs_per_worker": 1,
-        "ignore_worker_failures":True,
         "multiagent": {
             "policies_to_train": ["average_policy_0", "average_policy_1"],
             "policies": {
@@ -222,8 +221,7 @@ def train_off_policy_rl_nfsp(results_dir: str,
                         del postprocessed_batch.data["q_values"]
                     if "action_probs" in postprocessed_batch:
                         del postprocessed_batch.data["action_probs"]
-                    if "action_dist_inputs" in postprocessed_batch.data:
-                        del postprocessed_batch.data["action_dist_inputs"]
+                    del postprocessed_batch.data["action_dist_inputs"]
 
                 if policy_id in ("average_policy_0", "best_response_0"):
                     assert agent_id == 0
@@ -260,8 +258,6 @@ def train_off_policy_rl_nfsp(results_dir: str,
                         }, env_steps=policy_samples.count))
                 if average_policy_id in samples.policy_batches:
                     if br_policy_id in samples.policy_batches:
-                        if "new_obs" not in samples.policy_batches[average_policy_id].data:
-                            samples.policy_batches[average_policy_id].data["new_obs"] = samples.policy_batches[average_policy_id].data["obs"]
                         all_policies_samples = samples.policy_batches[br_policy_id].concat(
                             other=samples.policy_batches[average_policy_id])
                     else:
@@ -321,7 +317,6 @@ def train_off_policy_rl_nfsp(results_dir: str,
         "num_workers": 0,
         "num_gpus_per_worker": 0.0,
         "num_envs_per_worker": 1,
-        "ignore_worker_failures":True,
         "multiagent": {
             "policies_to_train": ["best_response_0", "best_response_1"],
             "policies": {
