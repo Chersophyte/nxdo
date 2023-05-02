@@ -113,7 +113,6 @@ def _build_q_model_and_distribution(
 
 def build_q_losses(policy: Policy, model, dist_class,
                    train_batch: SampleBatch) -> TensorType:
-    print(train_batch.keys())
     """Constructs the loss for SimpleQTorchPolicy.
 
     Args:
